@@ -54,4 +54,4 @@ def score9():
 
 if __name__ == '__main__':
     app.config['WTF_CSRF_ENABLED'] = False
-    app.run(threaded=True, host='0.0.0.0', port=5006)
+    app.run(host='0.0.0.0')
