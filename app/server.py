@@ -25,7 +25,7 @@ def score():
     with open(tmp_file, 'w') as f:
         f.write(sgf)
     output = os.popen("python sgf2gtp.py -f --stdout-only " + tmp_file + " | pachi").read()
-    result_line  = re.search('\= [A-Z]\+[0-9]\.[0-9]', output).group()
+    result_line  = re.findall(r'\= [A-Z]\+[0-9]\.[0-9]', output, flags=re.DOTALL)[0]
     result_color = re.search('[A-Z]', result_line).group()
     result_score = re.search('[0-9]\.[0-9]', result_line).group()
     os.remove(tmp_file)
@@ -44,7 +44,7 @@ def score9():
     with open(tmp_file, 'w') as f:
         f.write(sgf)
     output = os.popen("python sgf2gtp9.py -f --stdout-only " + tmp_file + " | pachi").read()
-    result_line  = re.search('\= [A-Z]\+[0-9]\.[0-9]', output).group()
+    result_line  = re.findall(r'\= [A-Z]\+[0-9]\.[0-9]', output, flags=re.DOTALL)[0]
     result_color = re.search('[A-Z]', result_line).group()
     result_score = re.search('[0-9]\.[0-9]', result_line).group()
     os.remove(tmp_file)

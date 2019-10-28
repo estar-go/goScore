@@ -11,10 +11,7 @@ ADD pip.conf /root/.pip/pip.conf
 ADD sources.list /etc/apt/sources.list
 
 RUN apt-get update && \
-    apt-get install python2.7 python2.7-dev python-pip software-properties-common -y && \
-    add-apt-repository ppa:lemonsqueeze/pachi -y && \
-    apt-get update && \
-    apt-get install pachi-go -y
+    apt-get install python2.7 python2.7-dev python-pip software-properties-common -y
 
 RUN pip install flask flask_cors uwsgi
 
@@ -22,6 +19,9 @@ RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime
 
 # Add demo app
 COPY ./app /app
+COPY ./pachi /pachi
+WORKDIR /pachi
+RUN make && make install && make install-data
 WORKDIR /app
 
 #RUN cp nginx.conf /etc/nginx/nginx.conf

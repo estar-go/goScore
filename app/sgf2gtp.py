@@ -136,7 +136,7 @@ def process_gametree(gametree, fout):
         player_next, player_other = player_other, player_next
 
     if args['f']:
-        print >>fout, "final_score"
+        print >>fout, "pachi-score_est"
 
 def process_sgf_file(fin, fout):
     sgfdata = fin.read()
