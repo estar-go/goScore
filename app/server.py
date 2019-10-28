@@ -14,6 +14,10 @@ app = Flask(__name__)
 CORS(app)
 app.config['WTF_CSRF_ENABLED'] = False
 
+@app.route('/')
+def index():
+    return '<h1>Hello, Flask!</h1>'
+
 @app.route('/ai/score', methods=['POST'])
 def score():
     sgf = request.form['sgf']

@@ -10,7 +10,7 @@ ADD pip.conf /root/.pip/pip.conf
 
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
 
-RUN apk add --no-cache -U build-base python2-dev libressl-dev libffi-dev tzdata nginx pcre-dev
+RUN apk add --no-cache -U build-base python2-dev libressl-dev libffi-dev tzdata pcre-dev
 
 RUN pip install flask flask_cors uwsgi
 
@@ -20,7 +20,7 @@ RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime
 COPY ./app /app
 WORKDIR /app
 
-RUN cp nginx.conf /etc/nginx/nginx.conf
+#RUN cp nginx.conf /etc/nginx/nginx.conf
 
 RUN cp uwsgi.ini /uwsgi.ini
 
