@@ -1,4 +1,4 @@
-FROM python:2.7-alpine
+FROM ubuntu:18.04
 LABEL maintainer="Kaihua Li"
 
 
@@ -8,9 +8,13 @@ ENV LANG C.UTF-8
 
 ADD pip.conf /root/.pip/pip.conf
 
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
+ADD sources.list /etc/apt/sources.list
 
-RUN apk add --no-cache -U build-base python2-dev libressl-dev libffi-dev tzdata pcre-dev
+RUN apt-get update && \
+    apt-get install python2.7 python2.7-dev python-pip software-properties-common -y && \
+    add-apt-repository ppa:lemonsqueeze/pachi -y && \
+    apt-get update && \
+    apt-get install pachi-go -y
 
 RUN pip install flask flask_cors uwsgi
 
@@ -34,8 +38,4 @@ COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
-#
-## Run the start script provided by the parent image tiangolo/uwsgi-nginx.
-## It will check for an /app/prestart.sh script (e.g. for migrations)
-## And then will start Supervisor, which in turn will start Nginx and uWSGI
-#CMD [""]
+
