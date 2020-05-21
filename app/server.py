@@ -20,7 +20,10 @@ def index():
 
 @app.route('/ai/score', methods=['POST'])
 def score():
-    sgf = request.form['sgf']
+    try:
+        sgf = request.form['sgf']
+    except KeyError:
+        sgf = request.json['sgf']
     tmp_file = str(random.randint(100000, 999999)) + '.sgf'
     with open(tmp_file, 'w') as f:
         f.write(sgf)
@@ -58,7 +61,10 @@ def score13():
 
 @app.route('/ai/score9', methods=['POST'])
 def score9():
-    sgf = request.form['sgf']
+    try:
+        sgf = request.form['sgf']
+    except KeyError:
+        sgf = request.json['sgf']
     tmp_file = str(random.randint(100000, 999999)) + '.sgf'
     with open(tmp_file, 'w') as f:
         f.write(sgf)
