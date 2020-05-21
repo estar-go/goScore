@@ -25,9 +25,28 @@ def score():
     with open(tmp_file, 'w') as f:
         f.write(sgf)
     output = os.popen("python sgf2gtp.py -f --stdout-only " + tmp_file + " | pachi").read()
-    result_line  = re.findall(r'\= [A-Z]\+[0-9]\.[0-9]', output, flags=re.DOTALL)[0]
+    result_line  = re.findall(r'\= [A-Z]\+[0-9]*\.[0-9]', output, flags=re.DOTALL)[0]
     result_color = re.search('[A-Z]', result_line).group()
-    result_score = re.search('[0-9]\.[0-9]', result_line).group()
+    result_score = re.search('[0-9]*\.[0-9]', result_line).group()
+    os.remove(tmp_file)
+    if result_color == 'B':
+        res = {"code": 0, "data": {"b_score": float(result_score), "w_score": 0}}
+    elif result_color == 'W':
+        res = {"code": 0, "data": {"b_score": 0, "w_score": float(result_score)}}
+    else:
+        res = {"code": 1}
+    return json.dumps(res)
+
+@app.route('/ai/score13', methods=['POST'])
+def score13():
+    sgf = request.form['sgf']
+    tmp_file = str(random.randint(100000, 999999)) + '.sgf'
+    with open(tmp_file, 'w') as f:
+        f.write(sgf)
+    output = os.popen("python sgf2gtp13.py -f --stdout-only " + tmp_file + " | pachi").read()
+    result_line  = re.findall(r'\= [A-Z]\+[0-9]*\.[0-9]', output, flags=re.DOTALL)[0]
+    result_color = re.search('[A-Z]', result_line).group()
+    result_score = re.search('[0-9]*\.[0-9]', result_line).group()
     os.remove(tmp_file)
     if result_color == 'B':
         res = {"code": 0, "data": {"b_score": float(result_score), "w_score": 0}}
@@ -44,9 +63,9 @@ def score9():
     with open(tmp_file, 'w') as f:
         f.write(sgf)
     output = os.popen("python sgf2gtp9.py -f --stdout-only " + tmp_file + " | pachi").read()
-    result_line  = re.findall(r'\= [A-Z]\+[0-9]\.[0-9]', output, flags=re.DOTALL)[0]
+    result_line  = re.findall(r'\= [A-Z]\+[0-9]*\.[0-9]', output, flags=re.DOTALL)[0]
     result_color = re.search('[A-Z]', result_line).group()
-    result_score = re.search('[0-9]\.[0-9]', result_line).group()
+    result_score = re.search('[0-9]*\.[0-9]', result_line).group()
     os.remove(tmp_file)
     if result_color == 'B':
         res = {"code": 0, "data": {"b_score": float(result_score), "w_score": 0}}
