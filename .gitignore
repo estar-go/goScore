@@ -1,0 +1,6 @@
+goboard/CMakeFiles/*
+goboard/*.cmake
+goboard/CMakeCache.txt
+goboard/goboard
+goboard/Makefile
+goboard/.idea/
